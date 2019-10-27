@@ -100,11 +100,8 @@ var Vector3 = function(x, y, z) {
   this.normalized = function() {
     // todo - return a new vector instance that is a normalized clone of 'this' vector
     // This should NOT change the values of this.x, this.y, and this.z
-    var magnitude = this.length();
-    var other = new Vector3();
-    other.x = this.x / magnitude;
-    other.y = this.y / magnitude;
-    other.z = this.z / magnitude;
+    var other = this.clone();
+    other.normalize();
     return other; // Should return a new vector that is not this
   };
 
@@ -112,9 +109,12 @@ var Vector3 = function(x, y, z) {
     // todo - Change the components of this vector so that its magnitude will equal 1.
     // This SHOULD change the values of this.x, this.y, and this.z
     var magnitude = this.length();
-    this.x = this.x / magnitude;
-    this.y = this.y / magnitude;
-    this.z = this.z / magnitude;
+    if(magnitude != 0)
+    {
+      this.x /= magnitude;
+      this.y /= magnitude;
+      this.z /= magnitude;
+    }
     return this;
   };
 
