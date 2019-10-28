@@ -33,12 +33,8 @@ var Sphere = function(center, radius) {
     console.error("The radius must be a Number");
   }
 
-  
-
   this.center = center;
   this.radius = radius;
-
- 
 
   this.raycast = function(ray) {
     // todo determine whether the ray intersects this sphere and where
@@ -53,30 +49,33 @@ var Sphere = function(center, radius) {
    
     //    create the vector(s) needed to solve for the coefficients in the
     //    quadratic equation
-    var rd = ray.direction;                             // normalized (unit vector) of ray direction
-    var vs = ray.origin.clone().subtract(this.center);  // vector from ray origin to sphere center
+    var rd = ray.direction;                             // normalized (unit vector) of ray direction -- d hat
+    var vs = ray.origin.clone().subtract(this.center);  // vector from ray origin to sphere center -- (o - c)
    
     // Set up pieces of quadratic equation
     var a = rd.dot(rd);
+
     var b = rd.dot(vs) * 2;
     var c = vs.dot(vs) - (this.radius*this.radius); 
 
-    //  calculate the discriminant
+    //  calculate the discriminant and use to determine if further computation is necessary
     var discriminant =  (b*b) - (4*a*c);
-    //  use the discriminant to determine if further computation is necessary
-    if ( discriminant < 0){return result}; // no points of intersection
+    //  distance from ray origin to intersection with sphere
+    var alpha = (-1*b - Math.sqrt(discriminant)) / 2*a; 
 
-    var t = (-1*b - Math.sqrt(discriminant)) / 2*a; // distance from ray origin to intersection with sphere
-    if (t < this.radius) { return result; } // ray origin inside sphere
-    
+   
+    // If discriminant < 0, there are no points of intersection
+    // If alpha < 0, the point of intersection lies on the origin of the array -- can't determine direction of intersection
+    // If c < 0, the ray is inside the sphere
+    if ( discriminant < 0 || alpha < 0 || c < 0 ){return result;}
     else { // valid intersection
-      var intersection = ray.origin.clone().add(rd.clone().multiplyScalar(t))
+      var intersection = ray.origin.clone().add(rd.clone().multiplyScalar(alpha))
       var normal = intersection.clone().subtract(this.center);
       var normalized = normal.normalized();
       result['hit']       = true;
       result['point']     = intersection; //'a Vector3 containing the closest VALID intersection'
       result['normal']    = normalized, // 'a vector3 containing a unit length normal at the intersection point',
-      result['distance']  = t; // 'a scalar containing the intersection distance from the ray origin' 
+      result['distance']  = alpha; // 'a scalar containing the intersection distance from the ray origin' 
       return result;
     }
   
