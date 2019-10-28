@@ -53,19 +53,19 @@ var Sphere = function(center, radius) {
     var vs = ray.origin.clone().subtract(this.center);  // vector from ray origin to sphere center -- (o - c)
    
     // Set up pieces of quadratic equation
-    var a = rd.dot(rd);
-
-    var b = rd.dot(vs) * 2;
+    // Using simplified form of quadratic equation since distance vector is a unit vectir
+    // Per https://en.wikipedia.org/wiki/Line–sphere_intersection
+    var b = rd.dot(vs);
     var c = vs.dot(vs) - (this.radius*this.radius); 
 
     //  calculate the discriminant and use to determine if further computation is necessary
-    var discriminant =  (b*b) - (4*a*c);
+    var discriminant =  (b*b) - c;
     //  distance from ray origin to intersection with sphere
-    var alpha = (-1*b - Math.sqrt(discriminant)) / 2*a; 
+    var alpha = (-1*b - Math.sqrt(discriminant)); 
 
    
     // If discriminant < 0, there are no points of intersection
-    // If alpha < 0, the point of intersection lies on the origin of the array -- can't determine direction of intersection
+    // If alpha < 0, the point of intersection behind the direction of the array
     // If c < 0, the ray is inside the sphere
     if ( discriminant < 0 || alpha < 0 || c < 0 ){return result;}
     else { // valid intersection
