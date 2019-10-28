@@ -4,9 +4,9 @@ This course teaches the students the fundamentals of game programming and skills
 
 **Units:4**
 
-[CSUMB Catalog][https://csumb.edu/course/cst/325]
+[CSUMB Catalog](https://csumb.edu/course/cst/325)
 
-- [x] Module 1: Vector Operations
+- [x] Module 1: [Vector Operations](https://github.com/kazemicode/CST-325/tree/master/Module%201)
 - [ ] Module 2: Ray Tracing
 - [ ] Module 3: Matrix Operations
 - [ ] Module 4: The Rasterization Pipeline
