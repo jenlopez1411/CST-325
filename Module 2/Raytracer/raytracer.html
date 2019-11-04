@@ -94,6 +94,7 @@ function setPixelColor(xPixelIndex, yPixelIndex, shadeOfGray /*[0,1]*/) {
 
 /* Helper function to get color of pixel if plane is hit and is closest intersection */
 function getPlaneColor(planeResult, lightSource){
+	var lightVector = lightSource.clone().subtract(planeResult.point);
 	var normalDotLight = planeResult.normal.dot(lightVector.normalized());
 	var shadowRay = new Ray(planeResult.point, lightVector.normalized());
 	var shadow = sphere.raycast(shadowRay);
