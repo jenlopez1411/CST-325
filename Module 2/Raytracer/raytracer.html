@@ -89,36 +89,74 @@ function setPixelColor(xPixelIndex, yPixelIndex, shadeOfGray /*[0,1]*/) {
 	imageData.data[index + 0] = shadeOfGray * 255; // red channel
 	imageData.data[index + 1] = shadeOfGray * 255; // green channel
 	imageData.data[index + 2] = shadeOfGray * 255; // blue channel
-	imageData.data[index + 3] = 255;
+	imageData.data[index + 3] = 255; 
 }
+
+/* Helper function to get color of pixel if plane is hit and is closest intersection */
+function getPlaneColor(planeResult, lightSource){
+	var normalDotLight = planeResult.normal.dot(lightVector.normalized());
+	var shadowRay = new Ray(planeResult.point, lightVector.normalized());
+	var shadow = sphere.raycast(shadowRay);
+	if(shadow.hit && shadow.distance < lightVector.length()){
+		return 0;	
+	}
+	else {
+		return normalDotLight; 
+	}
+}
+/* Helper function to get color of pixel if sphere is hit and is closest intersection */
+function getSphereColor(sphereResult, lightSource)
+{
+	var lightVector = lightSource.clone().subtract(sphereResult.point).normalized();
+	var normalDotLight = sphereResult.normal.dot(lightVector);
+	return normalDotLight; 
+}
+
 
 // -----------------------------------------------------------------------------
 function updateAndRender(timeElapsed) {
+	var seconds = timeElapsed * 0.001; // convert milliseconds to seconds
+	var lightSource = new Vector3(1, 0, 0); 
+	var normalDotLight, lightVector, shadowRay;
+	lightSource.x = Math.cos(seconds) * 0.5; // radius of 0.5
+	lightSource.z = Math.sin(seconds) * 0.5; // radius of 0.5
 	// Go through every pixel
 	for (var yPixelIndex = 0; yPixelIndex < pixelsDown; ++yPixelIndex) {
 		for (var xPixelIndex = 0; xPixelIndex < pixelsAcross; ++xPixelIndex) {
-
-			// Uncomment this once you've coded generateRayForPixel
 			var pixelRay = generateRayForPixel(xPixelIndex, yPixelIndex);
-
-		
-
-			// See if the ray intersects the sphere or the plane (or every object in our scene)
-			// Uncomment when your sphere or plane code is ready
 			var sphereResult = sphere.raycast(pixelRay);
 			var planeResult = plane.raycast(pixelRay);
+			var color;  
+			// See if the ray intersects the sphere or the plane (or every object in our scene)
+			// we didn't hit anything, choose an appropriate background color
+			if ( !sphereResult.hit && !planeResult.hit) {
+				 setPixelColor(xPixelIndex, yPixelIndex, 0.1); 
+			}
 
-			// determine which hit object is the closest (in case there is more than 1 hit)
-			if(planeResult.hit) {  // we hit the plane
-				setPixelColor(xPixelIndex, yPixelIndex, 0.5); // medium dark gray
+			// determine which hit object is the closest (if both plane and sphere hit)
+			else if(planeResult.hit && sphereResult.hit) {  // we hit both
+				
+				if(planeResult.distance < sphereResult.distance)
+				{
+					color = getPlaneColor(planeResult, lightSource);	
+					setPixelColor(xPixelIndex, yPixelIndex, coolor); 
+			
+				}
+				else {
+					color =  getSphereColor(sphereResult, lightSource);
+					setPixelColor(xPixelIndex, yPixelIndex, color);
+				}
+				
 			}
-			if (sphereResult.hit) { // if we hit the sphere
-				setPixelColor(xPixelIndex, yPixelIndex, 0.8); // middle gray
+			else if (sphereResult.hit) { // if we hit only the sphere
+				color =  getSphereColor(sphereResult, lightSource);
+				setPixelColor(xPixelIndex, yPixelIndex, color);
 			} 
-			if ( !sphereResult.hit && ! planeResult.hit) {
-				// we didn't hit anything, choose an appropriate backbround color
-				 setPixelColor(xPixelIndex, yPixelIndex, 0.1); // dark gray
-			}
+
+			else if (planeResult.hit) { // if we hit only the plane
+				color = getPlaneColor(planeResult, lightSource);
+				setPixelColor(xPixelIndex, yPixelIndex, color);
+			} 		
 		}
 	}
 
