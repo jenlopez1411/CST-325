@@ -5,7 +5,7 @@
  * @param radius A Number representing the radius of the sphere.
  */
 
-var Sphere = function(center, radius) {
+var Sphere = function(center, radius, color) {
   if (!(this instanceof Sphere)) {
     console.error("Sphere constructor must be called with the new operator");
   }
@@ -25,8 +25,17 @@ var Sphere = function(center, radius) {
     radius = 1;
   }
 
+  if (color === undefined)
+  {
+    color = new Vector3(1,1,1);
+  }
+
   if (!(center instanceof Vector3)) {
     console.error("The sphere center must be a Vector3");
+  }
+
+  if (!(color instanceof Vector3)) {
+    console.error("The sphere color must be a Vector3");
   }
 
   if ((typeof(radius) != 'number')) {
@@ -35,6 +44,7 @@ var Sphere = function(center, radius) {
 
   this.center = center;
   this.radius = radius;
+  this.color = color;
 
   this.raycast = function(ray) {
     // todo determine whether the ray intersects this sphere and where

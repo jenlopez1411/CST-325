@@ -58,6 +58,7 @@ var eyeDistance = 1/Math.tan(fovRadians/2); // = todo -> hint: related to tangen
 
 // important vectors
 var eyeCoordinate = new Vector3(0, 0, eyeDistance); // all of your rays will use this
+var lightSource = new Vector3(1, 0, 0);
 
 // Define the scene objects here ------------------
 
@@ -65,8 +66,13 @@ var eyeCoordinate = new Vector3(0, 0, eyeDistance); // all of your rays will use
 // They also provide a "raycast" function that you can pass a ray to
 // in order to find intersection between the ray and the object
 
-var sphere= new Sphere(new Vector3(0,0,0), 0.25);
-var plane = new Plane(new Vector3(0, 1, 0), new Vector3(0, -0.25, 0));
+var sphere = new Sphere(new Vector3(0, 0, 0), 0.25); 
+var floor = new Plane(new Vector3(0, 1, 0), new Vector3(0, -0.25, 0)); 
+var leftWall = new Plane(new Vector3(1, 0, 0), new Vector3(-1, 0, 0));
+var rightWall = new Plane(new Vector3(-1, 0, 0), new Vector3(1, 0, 0));
+var ceiling = new Plane(new Vector3(0, -1, 0), new Vector3(0, 1, 0));
+var backWall = new Plane(new Vector3(0, 0, 1), new Vector3(0, 0, -1));
+var scene = [sphere, floor, leftWall, rightWall, ceiling, backWall];
 // end of raytracer setup ******************************************************
 
 // -----------------------------------------------------------------------------
@@ -92,11 +98,11 @@ function setPixelColor(xPixelIndex, yPixelIndex, shadeOfGray /*[0,1]*/) {
 	imageData.data[index + 3] = 255; 
 }
 
-/* Helper function to get color of pixel if plane is hit and is closest intersection */
-function getPlaneColor(planeResult, lightSource){
-	var lightVector = lightSource.clone().subtract(planeResult.point);
-	var normalDotLight = planeResult.normal.dot(lightVector.normalized());
-	var shadowRay = new Ray(planeResult.point, lightVector.normalized());
+/* Helper function to get color of pixel if object is hit and is closest intersection */
+function getPixelColor(result, lightSource){
+	var lightVector = lightSource.clone().subtract(result.point);
+	var normalDotLight = result.normal.dot(lightVector.normalized());
+	var shadowRay = new Ray(result.point, lightVector.normalized());
 	var shadow = sphere.raycast(shadowRay);
 	if(shadow.hit && shadow.distance < lightVector.length()){
 		return 0;	
@@ -105,19 +111,11 @@ function getPlaneColor(planeResult, lightSource){
 		return normalDotLight; 
 	}
 }
-/* Helper function to get color of pixel if sphere is hit and is closest intersection */
-function getSphereColor(sphereResult, lightSource)
-{
-	var lightVector = lightSource.clone().subtract(sphereResult.point).normalized();
-	var normalDotLight = sphereResult.normal.dot(lightVector);
-	return normalDotLight; 
-}
 
 
 // -----------------------------------------------------------------------------
 function updateAndRender(timeElapsed) {
-	var seconds = timeElapsed * 0.001; // convert milliseconds to seconds
-	var lightSource = new Vector3(1, 0, 0); 
+	var seconds = timeElapsed * 0.001; // convert milliseconds to seconds 
 	var normalDotLight, lightVector, shadowRay;
 	lightSource.x = Math.cos(seconds) * 0.5; // radius of 0.5
 	lightSource.z = Math.sin(seconds) * 0.5; // radius of 0.5
@@ -125,39 +123,31 @@ function updateAndRender(timeElapsed) {
 	for (var yPixelIndex = 0; yPixelIndex < pixelsDown; ++yPixelIndex) {
 		for (var xPixelIndex = 0; xPixelIndex < pixelsAcross; ++xPixelIndex) {
 			var pixelRay = generateRayForPixel(xPixelIndex, yPixelIndex);
-			var sphereResult = sphere.raycast(pixelRay);
-			var planeResult = plane.raycast(pixelRay);
-			var color;  
+			var color;
+			var result = null;  
 			// See if the ray intersects the sphere or the plane (or every object in our scene)
 			// we didn't hit anything, choose an appropriate background color
-			if ( !sphereResult.hit && !planeResult.hit) {
-				 setPixelColor(xPixelIndex, yPixelIndex, 0.1); 
-			}
-
-			// determine which hit object is the closest (if both plane and sphere hit)
-			else if(planeResult.hit && sphereResult.hit) {  // we hit both
-				
-				if(planeResult.distance < sphereResult.distance)
+			for(var index = 0; index < scene.length; index++)
+			{
+				var testResult = scene[index].raycast(pixelRay);
+				if (result == null && testResult.hit)
 				{
-					color = getPlaneColor(planeResult, lightSource);	
-					setPixelColor(xPixelIndex, yPixelIndex, coolor); 
-			
+					result = testResult;
 				}
-				else {
-					color =  getSphereColor(sphereResult, lightSource);
-					setPixelColor(xPixelIndex, yPixelIndex, color);
+				else if(result != null && testResult.hit && testResult.distance < result.distance)
+				{
+					result = testResult
 				}
 				
 			}
-			else if (sphereResult.hit) { // if we hit only the sphere
-				color =  getSphereColor(sphereResult, lightSource);
-				setPixelColor(xPixelIndex, yPixelIndex, color);
-			} 
+			if (result == null){
+				setPixelColor(xPixelIndex, yPixelIndex, 0.1); 
+			}
+			else {
+				color = getPixelColor(result, lightSource);	
+				setPixelColor(xPixelIndex, yPixelIndex, color); 
 
-			else if (planeResult.hit) { // if we hit only the plane
-				color = getPlaneColor(planeResult, lightSource);
-				setPixelColor(xPixelIndex, yPixelIndex, color);
-			} 		
+			}	
 		}
 	}
 
