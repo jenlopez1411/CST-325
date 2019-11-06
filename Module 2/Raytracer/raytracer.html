@@ -68,11 +68,11 @@ var lightSource = new Vector3(1, 0, 0);
 
 var sphere = new Sphere(new Vector3(0, 0, 0), 0.25); 
 var floor = new Plane(new Vector3(0, 1, 0), new Vector3(0, -0.25, 0)); 
-var leftWall = new Plane(new Vector3(1, 0, 0), new Vector3(-1, 0, 0));
-var rightWall = new Plane(new Vector3(-1, 0, 0), new Vector3(1, 0, 0));
+var leftWall = new Plane(new Vector3(1, 0, 0), new Vector3(-1, 0, 0), new Vector3(1, 0, 0));
+var rightWall = new Plane(new Vector3(-1, 0, 0), new Vector3(1, 0, 0), new Vector3(0, 1, 0));
 var ceiling = new Plane(new Vector3(0, -1, 0), new Vector3(0, 1, 0));
 var backWall = new Plane(new Vector3(0, 0, 1), new Vector3(0, 0, -1));
-var scene = [sphere, floor, leftWall, rightWall, ceiling, backWall];
+var scene =  [sphere, floor, leftWall, rightWall, ceiling, backWall];
 // end of raytracer setup ******************************************************
 
 // -----------------------------------------------------------------------------
@@ -90,16 +90,18 @@ function generateRayForPixel(xPixelIndex, yPixelIndex) {
 }
 
 // -----------------------------------------------------------------------------
-function setPixelColor(xPixelIndex, yPixelIndex, shadeOfGray /*[0,1]*/) {
+function setPixelColor(xPixelIndex, yPixelIndex, color /*[0,1]*/) {
 	var index = (yPixelIndex * pixelsAcross + xPixelIndex) * 4; // 4 bytes per pixel
-	imageData.data[index + 0] = shadeOfGray * 255; // red channel
-	imageData.data[index + 1] = shadeOfGray * 255; // green channel
-	imageData.data[index + 2] = shadeOfGray * 255; // blue channel
+	imageData.data[index + 0] = color.x * 255; // red channel
+	imageData.data[index + 1] = color.y * 255; // green channel
+	imageData.data[index + 2] = color.z * 255; // blue channel
 	imageData.data[index + 3] = 255; 
 }
 
 /* Helper function to get color of pixel if object is hit and is closest intersection */
-function getPixelColor(result, lightSource){
+function getPixelColor(result, lightSource, resultIndex){
+	var colorVector = scene[resultIndex].color;
+	//console.log(object);
 	var lightVector = lightSource.clone().subtract(result.point);
 	var normalDotLight = result.normal.dot(lightVector.normalized());
 	var shadowRay = new Ray(result.point, lightVector.normalized());
@@ -108,7 +110,7 @@ function getPixelColor(result, lightSource){
 		return 0;	
 	}
 	else {
-		return normalDotLight; 
+		return colorVector.clone().multiplyScalar(normalDotLight); 
 	}
 }
 
@@ -125,6 +127,7 @@ function updateAndRender(timeElapsed) {
 			var pixelRay = generateRayForPixel(xPixelIndex, yPixelIndex);
 			var color;
 			var result = null;  
+			var resultIndex;
 			// See if the ray intersects the sphere or the plane (or every object in our scene)
 			// we didn't hit anything, choose an appropriate background color
 			for(var index = 0; index < scene.length; index++)
@@ -133,10 +136,12 @@ function updateAndRender(timeElapsed) {
 				if (result == null && testResult.hit)
 				{
 					result = testResult;
+					resultIndex = index;
 				}
 				else if(result != null && testResult.hit && testResult.distance < result.distance)
 				{
-					result = testResult
+					result = testResult;
+					resultIndex = index;
 				}
 				
 			}
@@ -144,7 +149,7 @@ function updateAndRender(timeElapsed) {
 				setPixelColor(xPixelIndex, yPixelIndex, 0.1); 
 			}
 			else {
-				color = getPixelColor(result, lightSource);	
+				color = getPixelColor(result, lightSource, resultIndex);	
 				setPixelColor(xPixelIndex, yPixelIndex, color); 
 
 			}	
