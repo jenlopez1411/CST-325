@@ -153,7 +153,9 @@ function testSetIdentity() {
         identity.elements[i] = (i % 3 == Math.floor(i / 3)) ? 1 : 0;
     }
 
-    var m1 = new Matrix3().set(0, 1, 2, 3, 4, 5, 6, 7, 8);
+    var m1 = new Matrix3().set( 0, 1, 2, 
+                                3, 4, 5, 
+                                6, 7, 8);
     m1.setIdentity();
 
     try {
@@ -168,7 +170,9 @@ function testSetIdentity() {
 function testMultiplyScalar() {
     reporter.reportTestStart("multiply scalar");
 
-    var m1 = new Matrix3().set(1, 2, 3, 4, 5, 6, 7, 8, 9);
+    var m1 = new Matrix3().set( 1, 2, 3, 
+                                4, 5, 6, 
+                                7, 8, 9);
     m1.multiplyScalar(2);
 
     try {
@@ -203,9 +207,7 @@ function testMultiplyRightSide() {
     }
 
     try {
-        m1.log();
         m1.multiplyRightSide(matRight);
-        m1.log();
         assert(matrix3Equal(m1, expectedResult), "matrix multiply from right side");
         reporter.reportTestEnd(true);
     } catch(err) {
@@ -218,7 +220,9 @@ function testMultiplyRightSide() {
 function testDeterminant() {
     reporter.reportTestStart("determinant");
 
-    var m1 = new Matrix3().set(1, 2, 3, 4, 5, 6, 7, 8, 9);
+    var m1 = new Matrix3().set( 1, 2, 3, 
+                                4, 5, 6, 
+                                7, 8, 9);
     var det = m1.determinant();
 
     try {
