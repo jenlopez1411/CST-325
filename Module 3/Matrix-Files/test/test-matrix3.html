@@ -185,10 +185,16 @@ function testMultiplyScalar() {
 function testMultiplyRightSide() {
     reporter.reportTestStart("multiply right side");
 
-    var matRight = new Matrix3().set(1, 2, 3, 4, 5, 6, 7, 8, 9);
-    var m1 = new Matrix3().set(2, 4, 6, 8, 9, 7, 5, 3, 1);
-    var expectedResult = new Matrix3().set(60, 72, 84, 93, 117, 141, 24, 33, 42);
-
+    var matRight = new Matrix3().set(   1, 2, 3, 
+                                        4, 5, 6, 
+                                        7, 8, 9);
+    var m1 = new Matrix3().set( 2, 4, 6, 
+                                8, 9, 7, 
+                                5, 3, 1);
+    var expectedResult = new Matrix3().set( 60, 72, 84, 
+                                            93, 117, 141, 
+                                            24, 33, 42);
+  
     try {
         assert(m1.elements[2] == 6, "test depends on 'set' working");
     } catch(err) {
@@ -197,10 +203,13 @@ function testMultiplyRightSide() {
     }
 
     try {
+        m1.log();
         m1.multiplyRightSide(matRight);
+        m1.log();
         assert(matrix3Equal(m1, expectedResult), "matrix multiply from right side");
         reporter.reportTestEnd(true);
     } catch(err) {
+        console.log(err);
         reporter.reportTestEnd(false);
     }
 }
