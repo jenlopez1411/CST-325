@@ -99,7 +99,7 @@ function setPixelColor(xPixelIndex, yPixelIndex, color /*[0,1]*/) {
 }
 
 /* Helper function to get color of pixel if object is hit and is closest intersection */
-function getPixelColor(result, lightSource, resultIndex){
+function getPixelColor(result, lightSource, resultIndex, depth){
 	var colorVector = scene[resultIndex].color;
 	//console.log(object);
 	var lightVector = lightSource.clone().subtract(result.point);
@@ -146,11 +146,11 @@ function updateAndRender(timeElapsed) {
 				
 			}
 			if (result == null){
-				setPixelColor(xPixelIndex, yPixelIndex, 0.1); 
+				setPixelColor(xPixelIndex, yPixelIndex, 0.1, 0); 
 			}
 			else {
 				color = getPixelColor(result, lightSource, resultIndex);	
-				setPixelColor(xPixelIndex, yPixelIndex, color); 
+				setPixelColor(xPixelIndex, yPixelIndex, color, 0); 
 
 			}	
 		}
