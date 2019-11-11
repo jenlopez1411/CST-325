@@ -126,10 +126,19 @@ var Matrix3 = function() {
 
 	// -------------------------------------------------------------------------
 	this.determinant = function() {
-		var aDet = this.getElement(1,1) * this.getElement(2,2) - this.getElement(1,2) * this.getElement(2,1);
-		var bDet = this.getElement(1,0) * this.getElement(2,2) - this.getElement(1,2) * this.getElement(2,0);
-		var cDet = this.getElement(1,0) * this.getElement(2,1) - this.getElement(1,1) * this.getElement(2,0);
-		var determinant = aDet - bDet + cDet;
+		// var aDet = this.getElement(1,1) * this.getElement(2,2) - this.getElement(1,2) * this.getElement(2,1);
+		// var bDet = this.getElement(1,0) * this.getElement(2,2) - this.getElement(1,2) * this.getElement(2,0);
+		// var cDet = this.getElement(1,0) * this.getElement(2,1) - this.getElement(1,1) * this.getElement(2,0);
+		// var determinant = aDet - bDet + cDet;
+
+		var te = this.elements,			// shorthand for elements of this matrix
+
+
+			te00 = te[ 0 ], te01 = te[ 1 ], te02 = te[ 2 ], // shorthand for accessing elements in original matrix
+			te10 = te[ 3 ], te11 = te[ 4 ], te12 = te[ 5 ], 
+			te20 = te[ 6 ], te21 = te[ 7 ], te22 = te[ 8 ],
+
+			determinant = te00*te11*te22 + te01*te12*te20 + te02*te10*te21 - te00*te12*te21 - te01*te10*te22 - te02*te11*te20;
 		return determinant; // should be the determinant
 	};
 
@@ -150,9 +159,36 @@ var Matrix3 = function() {
 
 	// -------------------------------------------------------------------------
 	this.inverse = function() {
-		// todo
+		// Based on: http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/
 		// modify 'this' matrix so that it becomes its inverse
-		return this;
+		var m = new Float32Array(9), 	// will be used to calculate the results
+			te = this.elements,			// shorthand for elements of this matrix
+
+
+			te00 = te[ 0 ], te01 = te[ 1 ], te02 = te[ 2 ], // shorthand for accessing elements in original matrix
+			te10 = te[ 3 ], te11 = te[ 4 ], te12 = te[ 5 ], 
+			te20 = te[ 6 ], te21 = te[ 7 ], te22 = te[ 8 ],
+
+			det = this.determinant();
+			
+			if ( det === 0 ) {
+				var msg = "can't invert matrix, determinant is 0";
+				console.warn(msg);
+				return this.setIdentity();
+			}
+		detInv = 1/det;
+		m[0] = (te11*te22 - te12*te21) *detInv;
+		m[1] = (te02*te21 - te01*te22) *detInv;
+		m[2] = (te01*te12 - te02*te11) *detInv;
+		m[3] = (te12*te20 - te10*te22) *detInv;
+		m[4] = (te00*te22 - te02*te20) *detInv;
+		m[5] = (te02*te10 - te00*te12) *detInv;
+		m[6] = (te10*te21 - te11*te20) *detInv;
+		m[7] = (te01*te20 - te00*te21) *detInv;
+		m[8] = (te00*te11 - te01*te10) *detInv;
+
+
+		return this.elements = m;
 	};
 
 	// -------------------------------------------------------------------------
