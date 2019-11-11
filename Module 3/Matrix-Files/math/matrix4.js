@@ -84,10 +84,15 @@ var Matrix4 = function(x, y, z) {
 		// todo - wipe out the existing matrix and make it a pure translation
 		//      - If arg1 is a Vector3, use its components and ignore arg2 and arg3
 		//      - O.W., treat arg1 as x, arg2 as y, and arg3 as z
+		this.setIdentity();
 		if (arg1 instanceof Vector3) {
-			//...
+			this.elements[3] = arg1.x;
+			this.elements[7] = arg1.y;
+			this.elements[11]= arg1.z;
 		} else {
-			//...
+			this.elements[3] = arg1;
+			this.elements[7] = arg2;
+			this.elements[11]= arg3;
 		}
 		return this;
 	}
@@ -113,15 +118,26 @@ var Matrix4 = function(x, y, z) {
 
 	// -------------------------------------------------------------------------
 	this.setPerspective = function(fovy, aspect, near, far) {
-		// todo - convert fovy to radians
-		// var fovyRads = ...
-
-		// todo -compute t (top) and r (right)
+		// convert fovy to radians
+		var fovyRads = fovy * Math.PI / 180,
+			t = near * Math.tan(fovyRads / 2); // top
+			r = t * aspect; // right
+		
 
 		// shortcut - use in place of this.elements
-		var e = this.elements;
+		var e = this.elements,
+			p1 = near/r,
+			p2 = near/t,
+			p3 = -(far + near) / (far - near),
+			p4 = -(2*near*far) / (far - near);
+
+			 
 
 		// todo - set every element to the appropriate value
+		e[0] = p1;	e[1] = 0;	e[2] = 0;	e[3] = 0;
+		e[4] = 0; 	e[5] = p2;  e[6] = 0;   e[7] = 0;
+		e[8] = 0;   e[9] = 0;   e[10] = p3;  e[11] = p4;
+		e[12] = 0;  e[13] = 0;  e[14] = -1;  e[15] = 0;
 
 		return this;
 	};
@@ -131,10 +147,14 @@ var Matrix4 = function(x, y, z) {
 		// todo - add a translation to the existing matrix
 		//      - If arg1 is a Vector3, add its components and ignore arg2 and arg3
 		//      - O.W., treat arg1 as x, arg2 as y, and arg3 as z
-		if (arg1 instanceof Vector3) {
-			//...
-		} else {
-			//...
+		if (arg1 instanceof Vector3) { // has x,y,z components
+			this.elements[3] += arg1.x;
+			this.elements[7] += arg1.y;
+			this.elements[11]+= arg1.z;
+		} else { // each arg is x, y, z
+			this.elements[3] += arg1;
+			this.elements[7] += arg2;
+			this.elements[11]+= arg3;
 		}
 		return this;
 	}

@@ -160,6 +160,7 @@ function testSetPerspectiveProjection() {
     reporter.reportTestStart("perspective");
 
     var perspective = new Matrix4().setPerspective(90, 2, 1, 100);
+    perspective.log();
     var m33 = -1.0202020406723022;
     var m34 = -2.0202019214630127;
     var expectedResult = new Matrix4().set(
