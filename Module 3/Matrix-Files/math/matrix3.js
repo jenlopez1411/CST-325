@@ -42,7 +42,7 @@ var Matrix3 = function() {
 	this.set = function (e11, e12, e13, e21, e22, e23, e31, e32, e33) {
 		
 		// given the 9 elements passed in as argument e-row#col#, use
-    	// them as the values to set on 'this' matrix.
+		// them as the values to set on 'this' matrix.
 		// Order is left to right, top to bottom.
 		for(var index = 0; index < arguments.length; index++)
 		{
@@ -197,7 +197,7 @@ var Matrix3 = function() {
 	this.inverse = function() {
 		// Based on: http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/
 		// modify 'this' matrix so that it becomes its inverse
-		var m = new Float32Array(9), 	// will be used to calculate the results
+		var m = new Float32Array(9),	// will be used to calculate the results
 			te = this.elements,			// shorthand for elements of this matrix
 
 
