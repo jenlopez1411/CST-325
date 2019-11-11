@@ -40,10 +40,10 @@ var Matrix3 = function() {
 
 	// -------------------------------------------------------------------------
 	this.set = function (e11, e12, e13, e21, e22, e23, e31, e32, e33) {
-		// todo
+		
 		// given the 9 elements passed in as argument e-row#col#, use
-    // them as the values to set on 'this' matrix.
-	// Order is left to right, top to bottom.
+    	// them as the values to set on 'this' matrix.
+		// Order is left to right, top to bottom.
 		for(var index = 0; index < arguments.length; index++)
 		{
 			this.elements[index] = arguments[index];
@@ -53,7 +53,6 @@ var Matrix3 = function() {
 
 	// -------------------------------------------------------------------------
 	this.getElement = function(row, col) {
-		// todo
 		// use the row and col to get the proper index into the 1d element array and return it
 		return this.elements[row*3 + col];
 		
@@ -77,6 +76,19 @@ var Matrix3 = function() {
 	this.setRotationX = function(angle) {
 		// not required yet, attempt to implement if finished early
 		// create a rotation matrix that rotates around the X axis
+
+		// convert to radians
+		var radians = angle * Math.PI / 180,
+			c = Math.cos(radians),
+			s = Math.sin(radians);
+
+		// shortcut - use in place of this.elements
+		var e = this.elements;
+
+		// set every element of this matrix to be a rotation around the x-axis
+		e[0] = 1;	e[1] = 0.0; e[2] = 0.0;	
+		e[3] = 0.0;	e[4] = c;	e[5] = -s;	
+		e[6] = 0.0;	e[7] = s;	e[8]= c;
 		return this;
 	};
 
@@ -84,6 +96,20 @@ var Matrix3 = function() {
 	this.setRotationY = function(angle) {
 		// not required yet, attempt to implement if finished early
 		// create a rotation matrix that rotates around the Y axis
+
+		// convert to radians
+		var radians = angle * Math.PI / 180,
+			c = Math.cos(radians),
+			s = Math.sin(radians);
+
+		// shortcut - use in place of this.elements
+		var e = this.elements;
+
+		// set every element of this matrix to be a rotation around the y-axis
+		e[0] = c;	e[1] = 0.0; e[2] = s;	
+		e[3] = 0.0;	e[4] = 1.0;	e[5] = 0.0;	
+		e[6] = -s;	e[7] = 0.0;	e[8] = c;	
+
 		return this;
 	};
 
@@ -92,6 +118,20 @@ var Matrix3 = function() {
 	this.setRotationZ = function(angle) {
 		// not required yet, attempt to implement if finished early
 		// create a rotation matrix that rotates around the Z axis
+
+		// convert to radians
+		var radians = angle * Math.PI / 180,
+			c = Math.cos(radians),
+			s = Math.sin(radians);
+
+		// shortcut - use in place of this.elements
+		var e = this.elements;
+
+		// set every element of this matrix to be a rotation around the z-axis
+		e[0] = c;	e[1] = -s;	e[2] = 0.0;	
+		e[3] = s;	e[4] = c;	e[5] = 0.0;	
+		e[6] = 0.0;	e[7] = 0.0;	e[8]= 1.0;	
+
 		return this;
 	};
 
@@ -105,10 +145,10 @@ var Matrix3 = function() {
 
 	// -------------------------------------------------------------------------
 	this.multiplyRightSide = function(otherMatrixOnRight) {
-		// todo
+		
 		// multiply 'this' matrix (on the left) by otherMatrixOnRight (on the right)
 		// the results should be applied to the elements on 'this' matrix
-		
+		// Using forumula: https://en.wikipedia.org/wiki/Matrix_multiplication#Notation
 		var result = new Float32Array(9); 
 		for(var i = 0; i < 3; i++)
 		{
@@ -126,10 +166,6 @@ var Matrix3 = function() {
 
 	// -------------------------------------------------------------------------
 	this.determinant = function() {
-		// var aDet = this.getElement(1,1) * this.getElement(2,2) - this.getElement(1,2) * this.getElement(2,1);
-		// var bDet = this.getElement(1,0) * this.getElement(2,2) - this.getElement(1,2) * this.getElement(2,0);
-		// var cDet = this.getElement(1,0) * this.getElement(2,1) - this.getElement(1,1) * this.getElement(2,0);
-		// var determinant = aDet - bDet + cDet;
 
 		var te = this.elements,			// shorthand for elements of this matrix
 
@@ -144,13 +180,13 @@ var Matrix3 = function() {
 
 	// -------------------------------------------------------------------------
 	this.transpose = function() {
-		// todo
 		// modify 'this' matrix so that it becomes its transpose
 		var trans = new Matrix3();
 		for(var row = 0; row < 3; row++)
 			{
 				for(var col = 0; col < 3; col++)
 				{
+					// row becomes column and column becomes row in transposed matrix
 					trans.setElement(row, col, this.getElement(col, row));
 				}
 			}

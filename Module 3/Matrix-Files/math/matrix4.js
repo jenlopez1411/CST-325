@@ -131,7 +131,7 @@ var Matrix4 = function(x, y, z) {
 		// shortcut - use in place of this.elements
 		var e = this.elements;
 
-		// todo - set every element to the appropriate value
+		// set every element to the appropriate value
 		e[0] = p1;	e[1] = 0;	e[2] = 0;	e[3] = 0;
 		e[4] = 0; 	e[5] = p2;  e[6] = 0;   e[7] = 0;
 		e[8] = 0;   e[9] = 0;   e[10] = p3;  e[11] = p4;
