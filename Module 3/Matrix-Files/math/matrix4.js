@@ -42,12 +42,20 @@ var Matrix4 = function(x, y, z) {
 	// -------------------------------------------------------------------------
 	this.setRotationX = function(degrees) {
 		// todo - convert to radians
-		// var radians = ...
+		var radians = degrees * Math.PI / 180,
+			c = Math.cos(radians),
+			s = Math.sin(radians);
+		
 
 		// shortcut - use in place of this.elements
 		var e = this.elements;
 
+
 		// todo - set every element of this matrix to be a rotation around the x-axis
+		e[0] = 1.0;	e[1] = 0.0; e[2] = 0.0;	e[3] = 0.0;
+		e[4] = 0.0;	e[5] = c;	e[6] = -s;	e[7] = 0.0;
+		e[8] = 0.0;	e[9] = s;	e[10]= c;	e[11]= 0.0;
+		e[12]= 0.0;	e[13]= 0.0;	e[14]= 0.0;	e[15]= 1.0;
 
 		return this;
 	};
@@ -55,12 +63,18 @@ var Matrix4 = function(x, y, z) {
 	// -------------------------------------------------------------------------
 	this.setRotationY = function(degrees) {
 		// todo - convert to radians
-		// var radians = ...
+		var radians = degrees * Math.PI / 180,
+			c = Math.cos(radians),
+			s = Math.sin(radians);
 
 		// shortcut - use in place of this.elements
 		var e = this.elements;
 
 		// todo - set every element of this matrix to be a rotation around the y-axis
+		e[0] = c;	e[1] = 0.0; e[2] = s;	e[3] = 0.0;
+		e[4] = 0.0;	e[5] = 1.0;	e[6] = 0.0;	e[7] = 0.0;
+		e[8] = -s;	e[9] = 0.0;	e[10]= c;	e[11]= 0.0;
+		e[12]= 0.0;	e[13]= 0.0;	e[14]= 0.0;	e[15]= 1.0;
 
 		return this;
 	};
@@ -81,12 +95,19 @@ var Matrix4 = function(x, y, z) {
 	// -------------------------------------------------------------------------
 	this.setRotationZ = function(degrees) {
 		// todo - convert to radians
-		// var radians = ...
+		var radians = degrees * Math.PI / 180,
+			c = Math.cos(radians),
+			s = Math.sin(radians);
 
 		// shortcut - use in place of this.elements
 		var e = this.elements;
 
 		// todo - set every element of this matrix to be a rotation around the z-axis
+		e[0] = c;	e[1] = -s; e[2] = 0.0;	e[3] = 0.0;
+		e[4] = s;	e[5] = c;	e[6]= 0.0;	e[7] = 0.0;
+		e[8] = 0.0;	e[9] = 0.0;	e[10]= 1.0;	e[11]= 0.0;
+		e[12]= 0.0;	e[13]= 0.0;	e[14]= 0.0;	e[15]= 1.0;
+
 		return this;
 	};
 
