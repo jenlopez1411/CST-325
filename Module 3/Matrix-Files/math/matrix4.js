@@ -41,7 +41,7 @@ var Matrix4 = function(x, y, z) {
 
 	// -------------------------------------------------------------------------
 	this.setRotationX = function(degrees) {
-		// todo - convert to radians
+		// convert to radians
 		var radians = degrees * Math.PI / 180,
 			c = Math.cos(radians),
 			s = Math.sin(radians);
@@ -51,7 +51,7 @@ var Matrix4 = function(x, y, z) {
 		var e = this.elements;
 
 
-		// todo - set every element of this matrix to be a rotation around the x-axis
+		// set every element of this matrix to be a rotation around the x-axis
 		e[0] = 1.0;	e[1] = 0.0; e[2] = 0.0;	e[3] = 0.0;
 		e[4] = 0.0;	e[5] = c;	e[6] = -s;	e[7] = 0.0;
 		e[8] = 0.0;	e[9] = s;	e[10]= c;	e[11]= 0.0;
@@ -62,7 +62,7 @@ var Matrix4 = function(x, y, z) {
 
 	// -------------------------------------------------------------------------
 	this.setRotationY = function(degrees) {
-		// todo - convert to radians
+		// convert to radians
 		var radians = degrees * Math.PI / 180,
 			c = Math.cos(radians),
 			s = Math.sin(radians);
@@ -70,7 +70,7 @@ var Matrix4 = function(x, y, z) {
 		// shortcut - use in place of this.elements
 		var e = this.elements;
 
-		// todo - set every element of this matrix to be a rotation around the y-axis
+		// set every element of this matrix to be a rotation around the y-axis
 		e[0] = c;	e[1] = 0.0; e[2] = s;	e[3] = 0.0;
 		e[4] = 0.0;	e[5] = 1.0;	e[6] = 0.0;	e[7] = 0.0;
 		e[8] = -s;	e[9] = 0.0;	e[10]= c;	e[11]= 0.0;
@@ -81,7 +81,7 @@ var Matrix4 = function(x, y, z) {
 
 	// -------------------------------------------------------------------------
 	this.setTranslation = function(arg1, arg2, arg3) {
-		// todo - wipe out the existing matrix and make it a pure translation
+		//		- wipe out the existing matrix and make it a pure translation
 		//      - If arg1 is a Vector3, use its components and ignore arg2 and arg3
 		//      - O.W., treat arg1 as x, arg2 as y, and arg3 as z
 		this.setIdentity();
@@ -120,18 +120,16 @@ var Matrix4 = function(x, y, z) {
 	this.setPerspective = function(fovy, aspect, near, far) {
 		// convert fovy to radians
 		var fovyRads = fovy * Math.PI / 180,
-			t = near * Math.tan(fovyRads / 2); // top
-			r = t * aspect; // right
-		
-
-		// shortcut - use in place of this.elements
-		var e = this.elements,
+			t = near * Math.tan(fovyRads / 2), // top
+			r = t * aspect, 				   // right
 			p1 = near/r,
 			p2 = near/t,
 			p3 = -(far + near) / (far - near),
 			p4 = -(2*near*far) / (far - near);
+		
 
-			 
+		// shortcut - use in place of this.elements
+		var e = this.elements;
 
 		// todo - set every element to the appropriate value
 		e[0] = p1;	e[1] = 0;	e[2] = 0;	e[3] = 0;
@@ -144,7 +142,7 @@ var Matrix4 = function(x, y, z) {
 
 	// -------------------------------------------------------------------------
 	this.translate = function(arg1, arg2, arg3) {
-		// todo - add a translation to the existing matrix
+		// 		- add a translation to the existing matrix
 		//      - If arg1 is a Vector3, add its components and ignore arg2 and arg3
 		//      - O.W., treat arg1 as x, arg2 as y, and arg3 as z
 		if (arg1 instanceof Vector3) { // has x,y,z components
