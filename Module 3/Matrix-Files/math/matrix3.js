@@ -1,4 +1,9 @@
 /*
+ * CST 325 - Graphics Programming
+ * Module 3 - Matrix3
+ * Sara Kazemi and Nathan Warren-Acord
+ *
+ *
  * An object representing a 3x3 matrix
  */
 
