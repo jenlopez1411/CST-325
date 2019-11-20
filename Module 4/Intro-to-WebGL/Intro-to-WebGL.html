@@ -33,6 +33,7 @@
     precision mediump float;
 
     varying vec3 vColor;
+    uniform float uTime;
 
     void main(void) {
         gl_FragColor = vec4(vColor, 1.0);
@@ -71,6 +72,7 @@
     // -------------------------------------------------------------------------
     function initializeAndStartRendering() {
         initGL();
+        gl.enable(gl.DEPTH_TEST);
 
         // uncomment when directed by the guide - todo #3
         createShaders();
@@ -78,7 +80,7 @@
         createTriangleGeometry();
 
         // bonus todo
-        // createLineGridGeometry();
+        createLineGridGeometry();
 
         if (gl) {
             updateAndRender();
@@ -211,16 +213,15 @@
 
         // todo #2
         // specify what portion of the canvas we want to draw to (all of it, full width and height)
-        // uncomment when ready to implement
-        var canvas = document.getElementById("webgl-canvas");
-        gl.viewport(0, 0, canvas.width, canvas.height);
+       
+        gl.viewport(0, 0, gl.canvasWidth, gl.canvasHeight);
 
         // this is a new frame so let's clear out whatever happened last frame
         gl.clearColor(0.707, 0.707, 1, 1.0);
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
         renderTriangle(secondsElapsedSinceStart);
-        // renderLines();
+        renderLines();
     }
 
     // -------------------------------------------------------------------------
@@ -232,8 +233,7 @@
         triangleGeometry.worldMatrix.setIdentity();
         
         // - set the projection matrix using values from online guide
-        var canvas = document.getElementById("webgl-canvas");
-        projectionMatrix.setPerspective(45, canvas.width/canvas.height, 0.1, 1000);
+        projectionMatrix.setPerspective(45, gl.canvasWidth/gl.canvasHeight, 0.1, 1000);
         
         // calculate the number of degrees we should have rotated given how much time has elapsed
         // 60 degrees per second
@@ -241,7 +241,6 @@
 
         // todo #11
         // - set the triangle geometry world matrix to be a rotation based on "degrees"
-       // triangleGeometry.worldMatrix.setRotationY();
         triangleGeometry.worldMatrix.setRotationY(secondsElapsedSinceStart);
         triangleGeometry.worldMatrix.translate(0, 0, -7);
 
@@ -280,7 +279,7 @@
         lineGridGeometry.worldMatrix = new Matrix4();
 
         // specify the shader which carries the instructions for "how" to render
-        triangleGeometry.shaderProgram = shaderProgram;
+         lineGridGeometry.shaderProgram = shaderProgram;
 
         var positionBuffer = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
@@ -290,14 +289,20 @@
         // specify the horizontal lines
         for (var i = -10; i <= 10; ++i) {
             // add position for line start point (x value should be i)
+            linePositions.push.apply(linePositions, [i, -1, 10]);
             // add position for line end point (x value should be i)
+            linePositions.push.apply(linePositions, [i, -1, -10]);
+            
         }
 
         // specify the lateral lines
         for (var i = -10; i <= 10; ++i) {
             // add position for line start point (z value should be i)
+            linePositions.push.apply(linePositions, [-10, -1, i]);
             // add position for line end point (z value should be i)
+            linePositions.push.apply(linePositions, [10, -1, i]);
         }
+       
 
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(linePositions), gl.STATIC_DRAW);
 
@@ -320,17 +325,45 @@
     function renderLines() {
         // todo update the triangle geometry world matrix here (used to place the triangle into world space)
         // todo set view matrix to identity
+        
+        lineGridGeometry.worldMatrix.setIdentity();
+
         // todo set the projection matrix using values from online guide
+        projectionMatrix.setPerspective(45, gl.canvasWidth/gl.canvasHeight, 0.1, 1000);
+
 
         // todo bind and map(gl.vertexAttribPointer) the buffers
+        gl.bindBuffer(gl.ARRAY_BUFFER, lineGridGeometry.positionBuffer);
+        gl.vertexAttribPointer(
+            lineGridGeometry.shaderProgram.vertexPositionAttribute,
+            3,
+            gl.FLOAT,
+            gl.FALSE,
+            0,
+            0
+        );
 
         // todo - send matrices to shader
+        gl.bindBuffer(gl.ARRAY_BUFFER, lineGridGeometry.colorBuffer);
+        gl.vertexAttribPointer(
+            lineGridGeometry.shaderProgram.vertexColorAttribute,
+            3,
+            gl.FLOAT,
+            gl.FALSE,
+            0,
+            0
+        );
 
-        // --------------------------------------------
+        // Send our matrices to the shader
+        gl.uniformMatrix4fv(shaderProgram.worldMatrixUniform, false, lineGridGeometry.worldMatrix.clone().transpose().elements);
+        gl.uniformMatrix4fv(shaderProgram.viewMatrixUniform, false, viewMatrix.clone().transpose().elements);
+        gl.uniformMatrix4fv(shaderProgram.projectionMatrixUniform, false, projectionMatrix.clone().transpose().elements);
+
+      
+       
         // below is done for you, uncomment when ready
-
-        // gl.uniform1f(shaderProgram.timeUniform, time.secondsElapsedSinceStart);
-        // gl.drawArrays(gl.LINES, 0, lineGridGeometry.bufferItemCount);
+        gl.uniform1f(shaderProgram.timeUniform, secondsElapsedSinceStart);
+        gl.drawArrays(gl.LINES, 0, lineGridGeometry.bufferItemCount);
     }
 
 </script>
