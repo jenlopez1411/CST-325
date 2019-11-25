@@ -23,8 +23,9 @@
             uViewMatrix *
             uWorldMatrix *
             vec4(aVertexPosition, 1.0); // treat the vertex as a point, multiply right to left
-
-        vColor = aVertexColor;
+            
+        vColor = aVertexColor - aVertexPosition;
+        
     }
 </script>
 
@@ -36,7 +37,7 @@
     uniform float uTime;
 
     void main(void) {
-        gl_FragColor = vec4(vColor, 1.0);
+        gl_FragColor = vec4(vColor, 1.0) + sin(uTime);
     }
 </script>
 
@@ -142,11 +143,15 @@
         // todo
         // Get a reference to the color attribute variable in the vertex shader and enable it
         shaderProgram.vertexColorAttribute = gl.getAttribLocation(shaderProgram, "aVertexColor");
+        console.log(shaderProgram.vertexColorAttribute);
         gl.enableVertexAttribArray(shaderProgram.vertexColorAttribute);
+
+        
 
         shaderProgram.worldMatrixUniform = gl.getUniformLocation(shaderProgram, "uWorldMatrix");
         shaderProgram.viewMatrixUniform = gl.getUniformLocation(shaderProgram, "uViewMatrix");
         shaderProgram.projectionMatrixUniform = gl.getUniformLocation(shaderProgram, "uProjectionMatrix");
+        shaderProgram.timeUniform = gl.getUniformLocation(shaderProgram, "uTime");
     }
 
     // -------------------------------------------------------------------------
@@ -254,6 +259,7 @@
             0  // offset - used for mixing data in a single buffer, ignore
         );
 
+        //generateColors();
         // todo #10 - map the color buffer similar to the position buffer above
         gl.bindBuffer(gl.ARRAY_BUFFER, triangleGeometry.colorBuffer);
         gl.vertexAttribPointer(
@@ -269,6 +275,8 @@
         gl.uniformMatrix4fv(shaderProgram.worldMatrixUniform, false, triangleGeometry.worldMatrix.clone().transpose().elements);
         gl.uniformMatrix4fv(shaderProgram.viewMatrixUniform, false, viewMatrix.clone().transpose().elements);
         gl.uniformMatrix4fv(shaderProgram.projectionMatrixUniform, false, projectionMatrix.clone().transpose().elements);
+
+        gl.uniform1f(shaderProgram.timeUniform, secondsElapsedSinceStart);
 
         gl.drawArrays(gl.TRIANGLES, 0, triangleGeometry.bufferItemCount);
     }
@@ -364,6 +372,29 @@
         // below is done for you, uncomment when ready
         gl.uniform1f(shaderProgram.timeUniform, secondsElapsedSinceStart);
         gl.drawArrays(gl.LINES, 0, lineGridGeometry.bufferItemCount);
+    }
+
+    function generateColors()
+    {
+        var colorBuffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
+        var rx = Math.sin(secondsElapsedSinceStart);;
+        var ry = Math.cos(secondsElapsedSinceStart);
+        var rz = .5;
+        var gx = .5;
+        var gy = Math.cos(secondsElapsedSinceStart);
+        var gz = Math.sin(secondsElapsedSinceStart);
+        var bx = Math.cos(secondsElapsedSinceStart);
+        var by = .5;
+        var bz = Math.sin(secondsElapsedSinceStart);
+        var colors = [
+            rx, ry, rz,
+            gx, gy, gz,
+            bx, by, bz
+        ];
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
+        triangleGeometry.colorBuffer = colorBuffer;
+
     }
 
 </script>
