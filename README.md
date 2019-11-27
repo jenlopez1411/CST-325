@@ -10,6 +10,6 @@ This course teaches the students the fundamentals of game programming and skills
 - [x] Module 2: [Ray Tracing](https://github.com/kazemicode/CST-325/tree/master/Module%202)
 - [x] Module 3: [Matrix Operations](https://github.com/kazemicode/CST-325/tree/master/Module%203/Matrix-Files)
 - [x] Module 4: [The Rasterization Pipeline](https://github.com/kazemicode/CST-325/tree/master/Module%204/Intro-to-WebGL)
-- [ ] Module 5: Texturing and Transparency
+- [x] Module 5: [Texturing and Transparency](https://github.com/kazemicode/CST-325/tree/master/Module%205)
 - [ ] Module 6: Illumination
 - [ ] Module 7: Shadows
