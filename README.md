@@ -23,7 +23,7 @@ In our first programming assignment, we implemented a Vector3 class and a Sphere
 ### Module 2: [Ray Tracing](https://github.com/kazemicode/CST-325/tree/master/Module%202)
 
 Using HTML5's Canvas element and vanilla JavaScript, we implemented ray tracing to create a 3D scene with depth, lighting, and shading. Since we are building visual abstractions, it is always helpful to draw out what the scene should look like in order to determine the correct values to use. For example, when setting up the Cornell Box with five planes representing three walls, a floor, and a ceiling, it was helpful to diagram this with respect to an x, y, z axis to determine the normal vector (the direction each plane would be facing) and a valid point that falls within each plane:
-![Cornell box](https://www.kazemicode.org/blog/wp-content/uploads/2019/11/ezgif-6-c23d17f93584.gif)
+![Cornell box](img/mod2.gif)
 
 ### Module 3: [Matrix Operations](https://github.com/kazemicode/CST-325/tree/master/Module%203/Matrix-Files)
 
@@ -43,10 +43,10 @@ This module focused on matrix operations, especially with respect to 3Ã—3 and 4Ã
 * *WebGL Programming Guide*: Chs. 1-5 ([learning.oreilly.com](https://learning.oreilly.com/library/view/webgl-programming-guide/9780133364903/ch05.html)) 
 
 In this module, we were introduced to the WebGL API and the rasterization pipeline. The main objective of this program was to render a triangle, using the position of each of it's three vertices to calculate the interpolated color values of its fragments. We also animated the triangle about the Y axis by varying the Y axis as a function of time.
-![Rotating triangle](https://www.kazemicode.org/blog/wp-content/uploads/2019/11/ezgif-6-6608a3edf6a5.gif)
+![Rotating triangle](img/mod4-1.gif)
 
 The extension activity this week was to animate the colors based on time. To do this, we needed to add another uniform float (for time) to our fragment shader, which could then receive an incremented time variable from our program. Here's a cool scrolling effect achieved with the [`fract`](https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/fract.xhtml) GLSL shader function.
-![Scrolling colors](https://www.kazemicode.org/blog/wp-content/uploads/2019/11/ezgif.com-video-to-gif-2.gif)
+![Scrolling colors](img/mod4-2.gif)
 
 **Sources consulted:**
 * WebGL Shaders and GLSL ([webglfundamentals.org](https://webglfundamentals.org/webgl/lessons/webgl-shaders-and-glsl.html))
@@ -56,10 +56,10 @@ The extension activity this week was to animate the colors based on time. To do 
 ### Module 5: [Texturing and Transparency](https://github.com/kazemicode/CST-325/tree/master/Module%205)
 
 Using WebGL, the primary goal here was to render textures and transparency. Initially, we used the GLSL shader function [`texture2D`](https://thebookofshaders.com/glossary/?search=texture2D) to set the color of our plane based on sampling a texture. We then added three sphere objects and implemented the painter's algorithm to render them with a realistic semitransparency effect.
-![First attempt](https://www.kazemicode.org/blog/wp-content/uploads/2019/11/ezgif.com-video-to-gif.gif)
+![First attempt](img/mod5-1.gif)
 
 As an added bonus, we were challenged to animate our texture as well as to sample and blend multiple textures. Below you can see the result of adding a second texture (bunny) to color our plane:
-![Bonus](https://www.kazemicode.org/blog/wp-content/uploads/2019/11/ezgif.com-video-to-gif-1.gif)
+![Bonus](img/mod5-2.gif)
 
 **Sources consulted:**
 * WebGL Shaders and GLSL ([webglfundamentals.org](https://webglfundamentals.org/webgl/lessons/webgl-shaders-and-glsl.html))
