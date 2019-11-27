@@ -45,8 +45,11 @@ function initGL(canvas) {
         gl.canvasWidth = canvas.width;
         gl.canvasHeight = canvas.height;
 
+        //https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/enable
         // todo enable depth test (z-buffering)
+        gl.enable(gl.DEPTH_TEST);
         // todo enable backface culling
+        gl.enable(gl.CULL_FACE);// default is gl.BACK
     } catch (e) {}
 
     if (!gl) {
@@ -148,14 +151,26 @@ function updateAndRender() {
 
     groundGeometry.render(camera, projectionMatrix, textureShaderProgram);
 
-    // todo
+  
     //   1. enable blending
+    gl.enable(gl.BLEND);
     //   2. set blend mode source to gl.SRC_ALPHA and destination to gl.ONE_MINUS_SRC_ALPHA
+    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
-    // uncomment when directed by guide
-    // for (var i = 0; i < sphereGeometryList.length; ++i) {
-    //     sphereGeometryList[i].render(camera, projectionMatrix, textureShaderProgram);
-    // }
+    //  sort sphereGeometryList
+    const sphereGeometrySorted = sphereGeometryList.sort(function(a,b) {
+        const last = a.z;
+        const next = b.z;
+        return last > next ? -1 : 1;
+      });
+
+
+    
+    for (var i = 0; i < sphereGeometrySorted.length; ++i) {
+        sphereGeometrySorted[i].render(camera, projectionMatrix, textureShaderProgram);
+         
+     }
 
     // todo - disable blending
+    gl.depthMask(false);
 }
