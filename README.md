@@ -5,6 +5,7 @@ This course teaches the students the fundamentals of game programming and skills
 **Units:4**
 
 ## Projects
+Note: All projects completed in collaboration with @nwarcord
 
 ### Module 1: [Vector Operations](https://github.com/kazemicode/CST-325/tree/master/Module%201)
 
