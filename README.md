@@ -14,9 +14,9 @@ This week we covered matrix operations, focusing on 3×3 and 4×4 square matrice
 
 **Sources consulted:**
 * Matrix Multiplication ([wikipedia.org](https://en.wikipedia.org/wiki/Matrix_multiplication#Notation))
-* Matrix Algebra: Inverse 3x3 ([euclideanspace.com](http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/)
-* *3D Math Primer for Graphics and Game Development*: Chs. 4-6 ([learning.oreilly.com](https://learning.oreilly.com/library/view/3d-math-primer/9781439869819/K13210_C004.xhtml) 
-* 3BLUE1BROWN Essence of Linear Algebra ([YouTube])(https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab)
+* Matrix Algebra: Inverse 3x3 ([euclideanspace.com](http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/threeD/))
+* *3D Math Primer for Graphics and Game Development*: Chs. 4-6 ([learning.oreilly.com](https://learning.oreilly.com/library/view/3d-math-primer/9781439869819/K13210_C004.xhtml)) 
+* 3BLUE1BROWN Essence of Linear Algebra ([YouTube](https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab))
 
 ### Module 4: [The Rasterization Pipeline](https://github.com/kazemicode/CST-325/tree/master/Module%204/Intro-to-WebGL)
 
