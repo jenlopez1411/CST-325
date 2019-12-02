@@ -66,7 +66,21 @@ As an added bonus, we were challenged to animate our texture as well as to sampl
 * MDN web docs ([developer.mozilla.org](https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/texParameter))
 * *WebGL Programming Guide*: Ch. 5 Using Colors and Texture Images ([learning.oreilly.com](https://learning.oreilly.com/library/view/webgl-programming-guide/9780133364903/ch05.html)) 
 
-### Module 6: Illumination
+### Module 6: [Illumination](https://github.com/kazemicode/CST-325/tree/master/Module%206/Phong%20Assignment%20Start)
+
+Continuing with WebGL, we implemented Phong lighting -- a combination of ambient, diffuse, and specular lighting. Each of these three components are computed as a function of the light and surface material properties. 
+
+Diffuse lighting is view independent since it is uniformly distributed. However, the orientation of the light impacts the intensity of its reflection. This is represented by the lambertian term (derived from Lambert's cosine law). Specular lighting, being non-uniformly distributed, is view dependent.
+
+To test the Phong lighting, we can manipulate the viewing angle of the world as well as the orientation of the light. While the ability to manipulate the view matrix was previously completed, we added the ability to rotate the light orientation (a vextor) about the X and Y axes using rotation matrices:
+
+![Bonus](img/mod6-1.gif)
+
+**Sources consulted:**
+* WebGL Phong Demo ([cs.toronto.edu](http://www.cs.toronto.edu/~jacobson/phong-demo/))
+* Basic Lighting ([Learn OpenGL](https://learnopengl.com/Lighting/Basic-Lighting))
+* *WebGL Programming Guide*: Ch. 8 Lighting Objects ([learning.oreilly.com](https://learning.oreilly.com/library/view/webgl-programming-guide/9780133364903/ch08.html)) 
+
 ### Module 7: Shadows
 ### Module 8: Final Project
 
