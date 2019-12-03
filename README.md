@@ -68,13 +68,17 @@ As an added bonus, we were challenged to animate our texture as well as to sampl
 
 ### Module 6: [Illumination](https://github.com/kazemicode/CST-325/tree/master/Module%206/Phong%20Assignment%20Start)
 
-Continuing with WebGL, we implemented Phong lighting -- a combination of ambient, diffuse, and specular lighting. Each of these three components are computed as a function of the light and surface material properties. 
+Continuing with WebGL, we implemented directional lighting with Phong shading -- a combination of ambient,diffuse, and specular lighting. Each of these three components are computed as a function of the light and surface material properties. 
 
 Diffuse lighting is view independent since it is uniformly distributed. However, the orientation of the light impacts the intensity of its reflection. This is represented by the lambertian term (derived from Lambert's cosine law). Specular lighting, being non-uniformly distributed, is view dependent.
 
-To test the Phong lighting, we can manipulate the viewing angle of the world as well as the orientation of the light. While the ability to manipulate the view matrix was previously completed, we added the ability to rotate the light orientation (a vextor) about the X and Y axes using rotation matrices:
+To test the Phong shading, we can manipulate the viewing angle of the world as well as the orientation of the light. While the ability to manipulate the view matrix was previously completed, we added the ability to rotate the light orientation (a vector) about the X and Y axes using rotation matrices:
 
-![Bonus](img/mod6-1.gif)
+![phong](img/mod6-1.gif)
+
+As an extension, we were challenged to also create a version of this world with point lighting and Phong shading. The white orb on the screen is positioned at the same location of the point lighting to give an illusion that it is the source of the light. The barrel is present to test the vector math, to ensure that only face of the barrel facting the point lighting is illuminated.
+
+![Bonus](img/mod6-2.gif)
 
 **Sources consulted:**
 * WebGL Phong Demo ([cs.toronto.edu](http://www.cs.toronto.edu/~jacobson/phong-demo/))
