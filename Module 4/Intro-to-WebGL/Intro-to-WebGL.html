@@ -37,15 +37,9 @@ Sara Kazemi and Nathan Warren-Acord
     precision mediump float;
 
     varying vec3 vColor;
-    uniform float uTime;
 
     void main(void) {
-        vec3 scrollColor = vec3(
-            fract(vColor.x + uTime),
-            fract(vColor.y + uTime),
-            fract(vColor.z + uTime)
-        );
-        gl_FragColor = vec4(scrollColor, 1.0);
+        vColor = aVertexColor;
     }
 
     
