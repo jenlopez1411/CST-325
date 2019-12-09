@@ -85,7 +85,18 @@ As an extension, we were challenged to also create a version of this world with 
 * Basic Lighting ([Learn OpenGL](https://learnopengl.com/Lighting/Basic-Lighting))
 * *WebGL Programming Guide*: Ch. 8 Lighting Objects ([learning.oreilly.com](https://learning.oreilly.com/library/view/webgl-programming-guide/9780133364903/ch08.html)) 
 
-### Module 7: Shadows
+### Module 7: [Shadows](https://github.com/kazemicode/CST-325/tree/master/Module%207/shadow-mapping)
+In our penultimate week, we learned about shadowmapping. 
+
+
+
+![shadowmapping](img/mod7-1.gif)
+
+**Sources consulted:**
+* *WebGL Programming Guide*: Ch. 10 Advanced Techniques ([learning.oreilly.com](https://learning.oreilly.com/library/view/webgl-programming-guide/9780133364903/ch10.html)) 
+* Shadow Map Antialiasing: ([developer.nvidia.com](https://developer.nvidia.com/gpugems/GPUGems/gpugems_ch11.html)) 
+
+
 ### Module 8: Final Project
 
 
