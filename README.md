@@ -86,9 +86,7 @@ As an extension, we were challenged to also create a version of this world with 
 * *WebGL Programming Guide*: Ch. 8 Lighting Objects ([learning.oreilly.com](https://learning.oreilly.com/library/view/webgl-programming-guide/9780133364903/ch08.html)) 
 
 ### Module 7: [Shadows](https://github.com/kazemicode/CST-325/tree/master/Module%207/shadow-mapping)
-In our penultimate week, we learned about shadowmapping. 
-
-
+In our penultimate week, we learned about shadow mapping--specificaly, casting shadows from a single directional light. First, we had to render scene depth from the point of view of the directional light into a tetxure. Next, we had to re-render the scene from the eye, determining whether each pixel was in shadow (by using the depth texture created in the initial rendering).
 
 ![shadowmapping](img/mod7-1.gif)
 
