@@ -1,3 +1,8 @@
+/*
+ * CST325 - Module 7 - Shadows
+ * Sara Kazemi and Nathan Warren-Acord
+ */ 
+
 'use strict'
 
 var gl;
@@ -227,7 +232,7 @@ function updateAndRender() {
     var lightTarget = new Vector3(0, 0, 0);
     var up = new Vector3(0, 1, 0);
 
-    // Todo - Set up a camera that points in the direction of the light at a
+    // Set up a camera that points in the direction of the light at a
     // reasonably close position such that the scene will be in the view volume.
     // We will set up the view volume boundaries with an orthographics projection.
 

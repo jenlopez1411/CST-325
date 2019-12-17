@@ -19,7 +19,7 @@ void main(void) {
     float specularIntensity = pow(max(dot(reflection01, directionToEye01), 0.0), 64.0);
 
     vec4 texColor = texture2D(uAlbedoTexture, vTexCoords);
-    //vec4 shadowColor = texture2D(uShadowTexture, vTexCoords);
+   
 
     vec3 ambient = vec3(0.2, 0.2, 0.2) * texColor.rgb;
     vec3 diffuseColor = texColor.rgb * lambert;
@@ -48,7 +48,6 @@ void main(void) {
     vec4 shadowColor = texture2D(uShadowTexture, lightSpaceUV);
 
     // todo #9
-    gl_FragColor = vec4(lightDepth, lightDepth, lightDepth, 1.0); // remove this when you are ready to add shadows
    
     if (lightDepth > shadowColor.z + bias) { // is current position depth to light greater than closest depth to light?
        gl_FragColor = vec4(ambient, 1.0);    // show only ambient color

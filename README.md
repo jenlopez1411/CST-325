@@ -97,7 +97,13 @@ In our penultimate week, we learned about shadow mapping--specificaly, casting s
 
 ### Module 8: Final Project
 
+For our final project, we had to integrate everything we learned in the class to create a partial model of our solar system with the sun, Earth, and moon using JavaScript and WebGL.
 
+The only lighting in this world comes from a diffuse point light situated at the position of the sun. The sun and background have emissive lighting to show the full color of their texture. The Earth and sun are only lit by the diffuse point lighting.
+
+All of the celestial bodies rotate about their y axis, but at different rates. The Earth revolves around the fixed point of the sun, while the moon’s revolution around is a bit more complex since it revolves around the non-fixed position of the Earth.
+
+![shadowmapping](img/mod8-1.gif)
 
 
 

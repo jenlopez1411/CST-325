@@ -49,7 +49,7 @@ function initGL(canvas) {
         // todo enable depth test (z-buffering)
         gl.enable(gl.DEPTH_TEST);
         // todo enable backface culling
-        gl.enable(gl.CULL_FACE);// default is gl.BACK
+        //gl.enable(gl.CULL_FACE);// default is gl.BACK
     } catch (e) {}
 
     if (!gl) {
